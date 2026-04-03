@@ -111,3 +111,20 @@ tbody tr:last-child {
 tbody td:nth-child(1) {
   padding-top: 10px !important;
 }
+/* ─────────────────────────────
+   FUNDO CINZA — TOTAIS
+───────────────────────────── */
+
+/* Totais principais (EBITDA, EBIT...) */
+.dre-total-major {
+  background-color: #2a2a2a;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+
+/* Totais secundários (Receita Líquida, Total Despesas...) */
+.dre-total-minor {
+  background-color: #1f1f1f;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
