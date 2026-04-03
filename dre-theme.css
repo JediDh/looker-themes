@@ -1,11 +1,9 @@
 /* ================================================================
-   DRE Legada — Custom CSS (versão refinada)
+   DRE Legada — CSS FINAL COMPATÍVEL LOOKER
    ================================================================ */
 
 
-/* ─────────────────────────────────────────────
-   RESET / BASE
-───────────────────────────────────────────── */
+/* BASE */
 
 tbody td {
   padding: 6px 10px !important;
@@ -13,127 +11,103 @@ tbody td {
   white-space: nowrap;
 }
 
-/* Fonte mais “analítica” estilo report */
 table {
-  font-family: "Menlo", "Consolas", "Roboto Mono", monospace !important;
+  font-family: "Menlo", "Consolas", monospace !important;
 }
 
 
-/* ─────────────────────────────────────────────
-   HIERARQUIA (COLUNAS)
-───────────────────────────────────────────── */
+/* ─────────────────────────────
+   HIERARQUIA
+───────────────────────────── */
 
-/* 1 · Linha DRE */
-tbody td:nth-child(1) {
-  font-weight: 700 !important;
-  font-size: 14px !important;
-  color: #111 !important;
+.dre-level-1 {
+  font-weight: 700;
+  font-size: 14px;
+  color: #111;
 }
 
-/* 2 · Tipo de Despesa */
-tbody td:nth-child(2) {
-  font-weight: 500 !important;
-  font-size: 12px !important;
-  color: #777 !important;
-  padding-left: 16px !important;
+.dre-level-2 {
+  font-weight: 500;
+  font-size: 12px;
+  color: #777;
+  padding-left: 12px;
 }
 
-/* 3 · Item Contábil */
-tbody td:nth-child(3) {
-  font-weight: 400 !important;
-  font-size: 11px !important;
-  color: #aaa !important;
-  padding-left: 24px !important;
+.dre-level-3 {
+  font-weight: 400;
+  font-size: 11px;
+  color: #aaa;
+  padding-left: 20px;
 }
 
 
-/* ─────────────────────────────────────────────
-   VALORES (COLUNAS NUMÉRICAS)
-───────────────────────────────────────────── */
+/* ─────────────────────────────
+   VALORES
+───────────────────────────── */
 
 tbody td:nth-child(n+4) {
   text-align: right !important;
   font-size: 12px;
-  letter-spacing: 0.3px;
 }
 
 
-/* ─────────────────────────────────────────────
-   SUBTOTAIS
-───────────────────────────────────────────── */
+/* ─────────────────────────────
+   SUBTOTAL
+───────────────────────────── */
 
 .dre-subtotal {
-  font-weight: 600 !important;
-  color: #ccc !important;
-  border-top: 1px dashed #666;
+  font-weight: 600;
+  border-top: 1px dashed #888;
   padding-top: 6px;
+  color: #ccc;
+  display: block;
 }
 
 
-/* ─────────────────────────────────────────────
-   TOTAIS (MINOR)
-───────────────────────────────────────────── */
+/* ─────────────────────────────
+   TOTAL MINOR
+───────────────────────────── */
 
 .dre-total-minor {
-  font-weight: 700 !important;
+  font-weight: 700;
   border-top: 2px solid #888;
   padding-top: 8px;
   color: #eee;
+  display: block;
 }
 
 
-/* ─────────────────────────────────────────────
-   TOTAIS (MAJOR)
-───────────────────────────────────────────── */
+/* ─────────────────────────────
+   TOTAL MAJOR
+───────────────────────────── */
 
 .dre-total-major {
-  font-weight: 700 !important;
+  font-weight: 700;
   border-top: 3px double #aaa;
   padding-top: 10px;
   color: #fff;
   font-size: 13px;
+  display: block;
 }
 
 
-/* ─────────────────────────────────────────────
-   LINHAS VISUAIS (efeito “terminal”)
-───────────────────────────────────────────── */
+/* ─────────────────────────────
+   LINHAS
+───────────────────────────── */
 
-/* Linha leve entre grupos */
 tbody tr {
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* Remove linha em branco feia */
 tbody tr:last-child {
   border-bottom: none;
 }
 
 
-/* ─────────────────────────────────────────────
-   AJUSTE PARA CÉLULAS COM CLASSE
-───────────────────────────────────────────── */
+/* ─────────────────────────────
+   ESPAÇAMENTO ENTRE GRUPOS
+───────────────────────────── */
 
-td:has(.dre-total-major),
-td:has(.dre-total-minor),
-td:has(.dre-subtotal) {
-  padding-top: 0 !important;
-}
-
-
-/* ─────────────────────────────────────────────
-   NEGATIVOS (estilo financeiro)
-───────────────────────────────────────────── */
-
-td:contains("-") {
-  color: #ff6b6b !important;
-}
-
-
-/* ─────────────────────────────────────────────
-   ESPAÇO ENTRE BLOCOS (tipo DIRETO, CS, etc)
-───────────────────────────────────────────── */
-
-tbody tr td:nth-child(1):not(:empty) {
+tbody td:nth-child(1) {
   padding-top: 10px !important;
 }
