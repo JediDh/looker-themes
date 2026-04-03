@@ -2,23 +2,10 @@
    DRE Legada — Custom CSS para Report Table plugin
    ================================================================
 
-   Como usar:
-   1. Hospede este arquivo em uma URL acessivel pelo Looker
-      (GCS bucket, S3, CDN, ou servidor interno)
-   2. No Report Table > Theme > "Load custom CSS from:"
-      cole a URL do arquivo
+   URL correta no GitHub (sem refs/heads/):
+   https://raw.githubusercontent.com/JediDh/looker-themes/main/dre-theme.css
 
-   Estrutura esperada:
-   - Coluna 1: dre_classificacao  (nivel macro)
-   - Coluna 2: dre_tipo_despesa   (subcategoria)
-   - Coluna 3: item_contabil_nm   (item granular)
-   - Colunas 4+: measures pivotados por mes/trimestre
-
-   Classes adicionadas via html do LookML:
-   - .dre-total-major   → EBITDA, EBIT, LUCRO CONTABIL (TOTAL)
-   - .dre-total-minor   → RECEITA LIQUIDA, TOTAL DESPESAS, LUCRO GERENCIAL (TOTAL)
-   - .dre-subtotal      → subtotal por tipo_despesa
-   - (sem classe)       → item regular
+   No Report Table > Theme > "Load custom CSS from:" → cole a URL
    ================================================================ */
 
 
@@ -46,40 +33,51 @@ tbody td:nth-child(3) {
 }
 
 
-/* ── Totais computados — major (EBITDA, EBIT, LUCRO CONTABIL) */
+/* ── Totais major (EBITDA, EBIT, LUCRO CONTABIL TOTAL) ─────
+   Borda dupla grossa — separador visual forte                */
 
 .dre-total-major {
+  display: block !important;
   font-weight: 700 !important;
-  border-top: 3px double #333;
-  padding-top: 6px;
-  color: #1a1a1a;
+  color: #1a1a1a !important;
+  border-top: 3px double #333 !important;
+  padding-top: 6px !important;
+  margin-top: 2px;
 }
 
 
-/* ── Totais computados — minor (RECEITA LIQUIDA, TOTAL DESPESAS) */
+/* ── Totais minor (RECEITA LIQUIDA, TOTAL DESPESAS, etc.) ──
+   Borda solida media                                         */
 
 .dre-total-minor {
+  display: block !important;
   font-weight: 700 !important;
-  border-top: 2px solid #888;
-  padding-top: 4px;
-  color: #1a1a1a;
+  color: #1a1a1a !important;
+  border-top: 2px solid #888 !important;
+  padding-top: 4px !important;
+  margin-top: 2px;
 }
 
 
-/* ── Subtotais por tipo_despesa ───────────────────────────── */
+/* ── Subtotais por tipo_despesa ────────────────────────────
+   Borda fina leve                                            */
 
 .dre-subtotal {
+  display: block !important;
   font-weight: 600 !important;
-  border-top: 1px solid #ddd;
-  padding-top: 3px;
-  color: #444;
+  color: #444 !important;
+  border-top: 1px solid #ccc !important;
+  padding-top: 3px !important;
+  margin-top: 1px;
 }
 
 
-/* ── Garante que bordas dos totais cubram toda a celula ──── */
+/* ── Forca a celula <td> a nao ter padding quando contem
+   um total/subtotal, para que a borda fique colada no topo ─ */
 
 td:has(.dre-total-major),
 td:has(.dre-total-minor),
 td:has(.dre-subtotal) {
   padding-top: 0 !important;
+  padding-bottom: 2px !important;
 }
