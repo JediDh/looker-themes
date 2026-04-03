@@ -1,130 +1,85 @@
 /* ================================================================
-   DRE Legada — CSS FINAL COMPATÍVEL LOOKER
+   DRE Legada — Custom CSS para Report Table plugin
+   ================================================================
+
+   Como usar:
+   1. Hospede este arquivo em uma URL acessivel pelo Looker
+      (GCS bucket, S3, CDN, ou servidor interno)
+   2. No Report Table > Theme > "Load custom CSS from:"
+      cole a URL do arquivo
+
+   Estrutura esperada:
+   - Coluna 1: dre_classificacao  (nivel macro)
+   - Coluna 2: dre_tipo_despesa   (subcategoria)
+   - Coluna 3: item_contabil_nm   (item granular)
+   - Colunas 4+: measures pivotados por mes/trimestre
+
+   Classes adicionadas via html do LookML:
+   - .dre-total-major   → EBITDA, EBIT, LUCRO CONTABIL (TOTAL)
+   - .dre-total-minor   → RECEITA LIQUIDA, TOTAL DESPESAS, LUCRO GERENCIAL (TOTAL)
+   - .dre-subtotal      → subtotal por tipo_despesa
+   - (sem classe)       → item regular
    ================================================================ */
 
 
-/* BASE */
+/* ── Hierarquia visual das 3 colunas de dimensao ─────────── */
 
-tbody td {
-  padding: 6px 10px !important;
-  vertical-align: middle;
-  white-space: nowrap;
+/* Level 1: Classificacao DRE — negrito, fonte maior */
+tbody td:nth-child(1) {
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  color: #1a1a1a !important;
 }
 
-table {
-  font-family: "Menlo", "Consolas", monospace !important;
+/* Level 2: Tipo de Despesa — cinza, fonte media */
+tbody td:nth-child(2) {
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  color: #666 !important;
 }
 
-
-/* ─────────────────────────────
-   HIERARQUIA
-───────────────────────────── */
-
-.dre-level-1 {
-  font-weight: 700;
-  font-size: 14px;
-  color: #111;
-}
-
-.dre-level-2 {
-  font-weight: 500;
-  font-size: 12px;
-  color: #777;
-  padding-left: 12px;
-}
-
-.dre-level-3 {
-  font-weight: 400;
-  font-size: 11px;
-  color: #aaa;
-  padding-left: 20px;
+/* Level 3: Item Contabil — fonte menor, mais claro */
+tbody td:nth-child(3) {
+  font-weight: 400 !important;
+  font-size: 11px !important;
+  color: #444 !important;
 }
 
 
-/* ─────────────────────────────
-   VALORES
-───────────────────────────── */
+/* ── Totais computados — major (EBITDA, EBIT, LUCRO CONTABIL) */
 
-tbody td:nth-child(n+4) {
-  text-align: right !important;
-  font-size: 12px;
+.dre-total-major {
+  font-weight: 700 !important;
+  border-top: 3px double #333;
+  padding-top: 6px;
+  color: #1a1a1a;
 }
 
 
-/* ─────────────────────────────
-   SUBTOTAL
-───────────────────────────── */
+/* ── Totais computados — minor (RECEITA LIQUIDA, TOTAL DESPESAS) */
+
+.dre-total-minor {
+  font-weight: 700 !important;
+  border-top: 2px solid #888;
+  padding-top: 4px;
+  color: #1a1a1a;
+}
+
+
+/* ── Subtotais por tipo_despesa ───────────────────────────── */
 
 .dre-subtotal {
-  font-weight: 600;
-  border-top: 1px dashed #888;
-  padding-top: 6px;
-  color: #ccc;
-  display: block;
+  font-weight: 600 !important;
+  border-top: 1px solid #ddd;
+  padding-top: 3px;
+  color: #444;
 }
 
 
-/* ─────────────────────────────
-   TOTAL MINOR
-───────────────────────────── */
+/* ── Garante que bordas dos totais cubram toda a celula ──── */
 
-.dre-total-minor {
-  font-weight: 700;
-  border-top: 2px solid #888;
-  padding-top: 8px;
-  color: #eee;
-  display: block;
-}
-
-
-/* ─────────────────────────────
-   TOTAL MAJOR
-───────────────────────────── */
-
-.dre-total-major {
-  font-weight: 700;
-  border-top: 3px double #aaa;
-  padding-top: 10px;
-  color: #fff;
-  font-size: 13px;
-  display: block;
-}
-
-
-/* ─────────────────────────────
-   LINHAS
-───────────────────────────── */
-
-tbody tr {
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
-tbody tr:last-child {
-  border-bottom: none;
-}
-
-
-/* ─────────────────────────────
-   ESPAÇAMENTO ENTRE GRUPOS
-───────────────────────────── */
-
-tbody td:nth-child(1) {
-  padding-top: 10px !important;
-}
-/* ─────────────────────────────
-   FUNDO CINZA — TOTAIS
-───────────────────────────── */
-
-/* Totais principais (EBITDA, EBIT...) */
-.dre-total-major {
-  background-color: #2a2a2a;
-  padding: 6px 8px;
-  border-radius: 4px;
-}
-
-/* Totais secundários (Receita Líquida, Total Despesas...) */
-.dre-total-minor {
-  background-color: #1f1f1f;
-  padding: 6px 8px;
-  border-radius: 4px;
+td:has(.dre-total-major),
+td:has(.dre-total-minor),
+td:has(.dre-subtotal) {
+  padding-top: 0 !important;
 }
