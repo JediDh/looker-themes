@@ -2,82 +2,152 @@
    DRE Legada — Custom CSS para Report Table plugin
    ================================================================
 
-   URL correta no GitHub (sem refs/heads/):
-   https://raw.githubusercontent.com/JediDh/looker-themes/main/dre-theme.css
+   Usar com: Theme → "Use custom theme"
+   Load custom CSS from: URL deste arquivo
 
-   No Report Table > Theme > "Load custom CSS from:" → cole a URL
+   IMPORTANTE: o Report Table plugin usa .text() do D3, então
+   html/inline styles no LookML NÃO funcionam. Toda estilização
+   visual deve ser feita via CSS externo usando as classes que
+   o plugin atribui automaticamente:
+     .dimension, .measure, .numeric, .nonNumeric, .subtotal,
+     .total, .merged, .headerCell, .rowCell, .indexCell, etc.
+
+   Hierarquia do DRE via nth-child:
+     td:nth-child(1) → dre_classificacao  (nível 1)
+     td:nth-child(2) → dre_tipo_despesa   (nível 2)
+     td:nth-child(3) → item_contabil_nm   (nível 3)
+     td:nth-child(4+) → measures pivotados
    ================================================================ */
 
 
-/* ── Hierarquia visual das 3 colunas de dimensao ─────────── */
+/* ─────────────────────────────────────────────────────────────────
+   BASE DA TABELA
+   ───────────────────────────────────────────────────────────────── */
 
-/* Level 1: Classificacao DRE — negrito, fonte maior */
+.reportTable {
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.reportTable th {
+  color: #333;
+  border-bottom: 2px solid #333 !important;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.reportTable td {
+  color: #333;
+  vertical-align: middle;
+  padding: 4px 8px;
+  border: none;
+  border-bottom: 1px solid #eee;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   HIERARQUIA: 3 colunas de dimensão com tamanhos decrescentes
+   ───────────────────────────────────────────────────────────────── */
+
+/* Nível 1: Classificação DRE — negrito grande */
 tbody td:nth-child(1) {
   font-weight: 700 !important;
   font-size: 14px !important;
   color: #1a1a1a !important;
 }
 
-/* Level 2: Tipo de Despesa — cinza, fonte media */
+/* Nível 2: Tipo de Despesa — semi-bold cinza */
 tbody td:nth-child(2) {
   font-weight: 500 !important;
   font-size: 12px !important;
   color: #666 !important;
 }
 
-/* Level 3: Item Contabil — fonte menor, mais claro */
+/* Nível 3: Item Contábil — menor, mais leve */
 tbody td:nth-child(3) {
   font-weight: 400 !important;
   font-size: 11px !important;
-  color: #444 !important;
+  color: #555 !important;
 }
 
 
-/* ── Totais major (EBITDA, EBIT, LUCRO CONTABIL TOTAL) ─────
-   Borda dupla grossa — separador visual forte                */
+/* ─────────────────────────────────────────────────────────────────
+   SUBTOTAIS (gerados pelo plugin com Row Subtotals ON,
+   ou linhas subtotal_tipo do SQL)
+   O plugin adiciona classe .subtotal + .total às células
+   ───────────────────────────────────────────────────────────────── */
 
-.dre-total-major {
-  display: block !important;
+.subtotal {
   font-weight: 700 !important;
-  color: #1a1a1a !important;
-  border-top: 3px double #333 !important;
-  padding-top: 6px !important;
-  margin-top: 2px;
-}
-
-
-/* ── Totais minor (RECEITA LIQUIDA, TOTAL DESPESAS, etc.) ──
-   Borda solida media                                         */
-
-.dre-total-minor {
-  display: block !important;
-  font-weight: 700 !important;
-  color: #1a1a1a !important;
+  font-style: normal !important;
+  background-color: #f5f5f5 !important;
   border-top: 2px solid #888 !important;
-  padding-top: 4px !important;
-  margin-top: 2px;
+  border-bottom: 1px solid #ccc !important;
 }
 
 
-/* ── Subtotais por tipo_despesa ────────────────────────────
-   Borda fina leve                                            */
+/* ─────────────────────────────────────────────────────────────────
+   TOTAIS (Grand Total — rodapé)
+   ───────────────────────────────────────────────────────────────── */
 
-.dre-subtotal {
-  display: block !important;
-  font-weight: 600 !important;
-  color: #444 !important;
-  border-top: 1px solid #ccc !important;
-  padding-top: 3px !important;
-  margin-top: 1px;
+.total {
+  font-weight: 700 !important;
+  border-top: 3px double #333 !important;
+  border-bottom: none !important;
+  background-color: #f0f0f0 !important;
+}
+
+.total.transposed {
+  border-top: 0px !important;
 }
 
 
-/* ── Forca a celula <td> a nao ter padding quando contem
-   um total/subtotal, para que a borda fique colada no topo ─ */
+/* ─────────────────────────────────────────────────────────────────
+   DIMENSÕES MERGEADAS (Merge Dims ON)
+   ───────────────────────────────────────────────────────────────── */
 
-td:has(.dre-total-major),
-td:has(.dre-total-minor),
-td:has(.dre-subtotal) {
-  padding-top: 0 !important;
-  padding-bottom: 2px !important;
+.rowCell.merged {
+  background-color: #fff !important;
+  border-bottom: none !important;
+}
+
+.indexCell.transposed.merged {
+  background-color: #fff !important;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   MEASURES — valores numéricos
+   ───────────────────────────────────────────────────────────────── */
+
+.measure.numeric {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   HEADERS — pivôs (meses/trimestres)
+   ───────────────────────────────────────────────────────────────── */
+
+.headerCell {
+  background-color: #fafafa !important;
+}
+
+.headerCell.pivot {
+  background-color: #f0f4f8 !important;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   HOVER
+   ───────────────────────────────────────────────────────────────── */
+
+.hover {
+  background-color: #fff9e6 !important;
 }
